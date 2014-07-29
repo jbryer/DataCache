@@ -1,14 +1,30 @@
 #' Retrieve data from a data cache.
 #' 
+#' Data caching is not new. It is often necessary to save intermediate data
+#' files when the process of loading and/or manipulating data takes a
+#' considerable amount of time. This problem is further complicated when working
+#' with dynamic data that changes regularly. In these situations it often
+#' sufficient to use data that is current with in some time frame (e.g. hourly,
+#' daily, weekly, monthly). One solution is to use a time-based job scheduler
+#' such as cron. However, that requires access and knowledge of Unix systems.
+#' The alternative, is to check for the “freshness” of a cached dataset each
+#' time it is requested. If is “stale,” then the data cached is refreshed with
+#' more up-to-date data. The DataCache package implements this approach in R.
+#' Moreover, on Unix systems (including Mac OS X), the refreshing will be done
+#' in the background. That is, when requesting data from the cache, if it is
+#' stale, the function will return the latest available data while the cache is
+#' updated in the background. This is particularly useful when using R in a web
+#' environment (e.g. Shiny Apps) where it is not ideal to have the user wait for
+#' data be loaded to begin interacting with the app.
 #' 
 #' @param FUN the function used to laod the data.
-#' @param frequency how frequently should the cache expire. 
+#' @param frequency how frequently should the cache expire.
 #' @param cache.dir the directory containing the cached data files.
 #' @param envir the enviroment into which data will be loaded.
 #' @param wait should the function wait until stale data is refreshed.
 #' @param ... other parameters passed to \code{FUN}.
-#' @seealso \link{daily}, \link{hourly}, \link{weekly}, \link{monthly},
-#'        \link{yearly}, \link{nMinutes}, \link{nHours}, \link{nDays}
+#' @seealso \link{daily}, \link{hourly}, \link{weekly}, \link{monthly}, 
+#'   \link{yearly}, \link{nMinutes}, \link{nHours}, \link{nDays}
 #' @export
 data.cache <- function(FUN,
 					  frequency=daily,

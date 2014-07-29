@@ -4,7 +4,7 @@
 \title{Retrieve data from a data cache.}
 \usage{
 data.cache(FUN, frequency = daily, cache.dir = "cache",
-  cache.name = "Cache-", envir = parent.frame(), wait = FALSE, ...)
+  cache.name = "Cache", envir = parent.frame(), wait = FALSE, ...)
 }
 \arguments{
 \item{FUN}{the function used to laod the data.}

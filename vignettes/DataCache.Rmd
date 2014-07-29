@@ -28,12 +28,6 @@ For this example, we wish to periodically load weather data using the `weatherDa
 ```{r loadPackages, message=FALSE, warning=FALSE}
 library('DataCache')
 library('weatherData')
-#cache.dir <- tempdir()
-cache.dir <- 'cache'
-```
-```{r createDir, echo=FALSE, warning=FALSE, message=FALSE}
-# devtools::install() will not work without this. devtools::build_vignettes() does.
-dir.create(cache.dir)
 ```
 
 The only required parameter for the `data.cache` function is the `FUN` parameter which defines the data to be loaded. This function should return a named `list` where each element of the list will be assigned to specified environment when loaded. That is, if the function returns `list(foo='bar')` then the object `foo` will be assigned in the working envirnoment (note that this can be modified using the `envir` parameter).
@@ -57,20 +51,20 @@ Note for Windows users: Forking is not available on Windows systems using the `p
 The `data.cache` returns invisibly (i.e. will not be printed if not assinged to a variable, see `?invisible` for more details) the timestamp of the data returned.
 
 ```{r firstCache}
-(cache.date1 <- data.cache(loadWeatherData, cache.dir=cache.dir))
+(cache.date1 <- data.cache(loadWeatherData))
 head(weather.ALB)
 ```
 
 The `cache.info` function provides a summary of all the cached data files. It will also provide columns (which can be set using the `stale` parameter) indicating whether that data file is stale according to various time periods.
 
 ```{r cacheInfo}
-cache.info(cache.dir=cache.dir)
+cache.info()
 ```
 
 Old data caches can easily be loaded this way. For example, the following will load the first data cache created:
 
 ```{r loadOldCache, eval=FALSE}
-cinfo <- cache.info(cache.dir=cache.dir)
+cinfo <- cache.info()
 load(cinfo[nrow(cinfo),]$file)
 ```
 
@@ -97,19 +91,19 @@ We will wait 60 seconds so that the cache becomes stale. We will also call `data
 
 ```{r updatingCache}
 Sys.sleep(60)
-(cache.date2 <- data.cache(loadWeatherData, nMinutes(1), cache.dir=cache.dir))
-(cache.date3 <- data.cache(loadWeatherData, nMinutes(1), cache.dir=cache.dir))
+(cache.date2 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
+(cache.date3 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
 ```
 
 It is easy to have multiple data caches. Using the same `loadWeatherData` function we will create a spearate data cache for weather data from JFK.
 
 ```{r jfkCache}
-data.cache(loadWeatherData, cache.name='NRT', station_id='NRT', cache.dir=cache.dir)
+data.cache(loadWeatherData, cache.name='NRT', station_id='NRT')
 head(weather.NRT)
-cache.info(cache.name='NRT', cache.dir=cache.dir)
+cache.info(cache.name='NRT')
 ```
 
 
 ```{r cleanup, echo=FALSE, message=FALSE, warning=FALSE}
-unlink(cache.dir, recursive=TRUE, force=TRUE)
+unlink('cache', recursive=TRUE, force=TRUE)
 ```

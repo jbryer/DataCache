@@ -13,7 +13,7 @@
 data.cache <- function(FUN,
 					  frequency=daily,
 					  cache.dir='cache',
-					  cache.name='Cache-',
+					  cache.name='Cache',
 					  envir=parent.frame(),
 					  wait=FALSE,
 					  ...) {
@@ -23,7 +23,10 @@ data.cache <- function(FUN,
 	
 	cache.date <- Sys.time()
 	return.date <- cache.date
-	dir.create(cache.dir, recursive=TRUE, showWarnings=FALSE)
+	if(!file.exists(cache.dir)) {
+		dir.create(cache.dir, recursive=TRUE, showWarnings=FALSE)
+		cache.dir <- normalizePath(cache.dir)
+	}
 	cinfo <- cache.info(cache.dir=cache.dir, cache.name=cache.name, stale=NULL)
 	new.cache.file <- paste0(cache.dir, '/', cache.name, cache.date, '.rda')
 	
@@ -37,7 +40,7 @@ data.cache <- function(FUN,
 				if(inherits(p, "masterProcess")) {
 					sink(file=paste0(cache.dir, '/', cache.name, cache.date, '.log'), append=TRUE)
 					print(paste0('Loading data at ', Sys.time()))
-					tryCatch({ # TODO: make FUN parameter
+					tryCatch({
 							thedata <- FUN(...)
 							if(class(thedata) == 'list') {
 								save(list=ls(thedata), envir=as.environment(thedata), 
@@ -66,7 +69,7 @@ data.cache <- function(FUN,
 			}
 			message('Loading more recent data, returning lastest available.')
 		}
-		load(cinfo[1,]$file, envir=envir)
+		load(paste0(cache.dir, '/', cinfo[1,]$file), envir=envir)
 		return.date <- cinfo[1,]$created
 	} else {
 		if(Sys.info()['sysname'] == 'Windows' & nrow(cinfo) == 0) {

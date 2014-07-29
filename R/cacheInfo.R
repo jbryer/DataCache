@@ -7,7 +7,7 @@
 #' @return a data frame with three columns: the cached file name, the date/time
 #'         created, and the age in the specified units (default is minutes).
 #' @export
-cache.info <- function(cache.dir='cache', cache.name='Cache-', units='mins', 
+cache.info <- function(cache.dir='cache', cache.name='Cache', units='mins', 
 					   stale=c('hourly'=hourly, 'daily'=daily, 
 					   		   'weekly'=weekly, 'monthly'=monthly, 'yearly'=yearly)) {
 	if(!is.null(stale) & any(names(stale) == '')) {
@@ -21,7 +21,7 @@ cache.info <- function(cache.dir='cache', cache.name='Cache-', units='mins',
 			timestamps <- substr(cache.files, 
 								 nchar(cache.name) + 1,
 								 sapply(cache.files, nchar) - 4)
-			results <- data.frame(file=paste0(cache.dir, '/', cache.files),
+			results <- data.frame(file=cache.files,
 								  created=as.POSIXct(timestamps),
 								  age=as.numeric(difftime(Sys.time(), timestamps, units=units)))
 			names(results)[3] <- paste0('age_', units)
@@ -33,5 +33,6 @@ cache.info <- function(cache.dir='cache', cache.name='Cache-', units='mins',
 			results <- results[order(results$created, decreasing=TRUE),]
 		}
 	}
+	attr(results, 'cache.dir') <- cache.dir
 	return(results)
 }

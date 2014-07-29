@@ -3,7 +3,7 @@
 \alias{cache.info}
 \title{Returns information about the cache.}
 \usage{
-cache.info(cache.dir = "cache", cache.name = "Cache-", units = "mins",
+cache.info(cache.dir = "cache", cache.name = "Cache", units = "mins",
   stale = c(hourly = hourly, daily = daily, weekly = weekly, monthly =
   monthly, yearly = yearly))
 }

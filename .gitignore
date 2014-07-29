@@ -5,3 +5,9 @@
 /DataCache.Rproj
 
 /cache/
+
+/.DS_Store
+
+/inst/doc/DataCache.R
+
+/vignettes/.DS_Store

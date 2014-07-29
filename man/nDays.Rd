@@ -11,4 +11,10 @@ nDays(nDays)
 \description{
 Refresh every n days.
 }
+\seealso{
+Other frequencies: \code{\link{daily}};
+  \code{\link{hourly}}; \code{\link{monthly}};
+  \code{\link{nHours}}; \code{\link{nMinutes}};
+  \code{\link{weekly}}; \code{\link{yearly}}
+}
 

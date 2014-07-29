@@ -2,31 +2,35 @@
 #' 
 #' @param cache.dir the directory containing the cached files.
 #' @param units the units to use for calculate the age of the cache file.
-#' @param stale a vector of frequencies to test whether the each cache file
-#'        is stale.
+#' @param stale a vector of frequencies to test whether each cache file
+#'        is stale according to that metric. If \code{NULL}, no info is provided.
 #' @return a data frame with three columns: the cached file name, the date/time
 #'         created, and the age in the specified units (default is minutes).
 #' @export
-cache.info <- function(cache.dir='cache', units='mins', 
-					   stale=c('hourly'=hourly, 'daily'=daily, 'weekly'=weekly, 'monthly'=monthly)) {
-	if(any(is.null(stale)) | any(names(stale) == '')) {
+cache.info <- function(cache.dir='cache', cache.name='Cache-', units='mins', 
+					   stale=c('hourly'=hourly, 'daily'=daily, 
+					   		   'weekly'=weekly, 'monthly'=monthly, 'yearly'=yearly)) {
+	if(!is.null(stale) & any(names(stale) == '')) {
 		stop("stale must be a named vector (e.g. stale=c(hourly=hourly)")
 	}
 	results <- data.frame()
 	if(file.exists(cache.dir)) {
-		file.prefix <- 'Cache-'
-		cache.files <- list.files(paste0(cache.dir, '/'), '*.rda')
+		cache.files <- list.files(path=cache.dir, pattern=paste0(cache.name, '*'))
 		if(length(cache.files) > 0) {
+			cache.files <- cache.files[grep('*.rda$', cache.files)] # Get only .rda files
 			timestamps <- substr(cache.files, 
-								 nchar(file.prefix) + 1,
+								 nchar(cache.name) + 1,
 								 sapply(cache.files, nchar) - 4)
 			results <- data.frame(file=paste0(cache.dir, '/', cache.files),
 								  created=as.POSIXct(timestamps),
 								  age=as.numeric(difftime(Sys.time(), timestamps, units=units)))
 			names(results)[3] <- paste0('age_', units)
-			for(i in seq_along(stale)) {
-				results[,paste0(names(stale)[i], '_stale')] <- stale[[i]](timestamps)
+			if(!is.null(stale)) {
+				for(i in seq_along(stale)) {
+					results[,paste0(names(stale)[i], '_stale')] <- stale[[i]](timestamps)
+				}
 			}
+			results <- results[order(results$created, decreasing=TRUE),]
 		}
 	}
 	return(results)

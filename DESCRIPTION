@@ -14,6 +14,6 @@ VignetteBuilder: knitr
 Depends:
     R (>= 3.0)
 Imports:
-    lubridate
+    lubridate,parallel
 Suggests:
     devtools,weatherData

@@ -11,4 +11,10 @@ nHours(nHours)
 \description{
 Refresh every n hours.
 }
+\seealso{
+Other frequencies: \code{\link{daily}};
+  \code{\link{hourly}}; \code{\link{monthly}};
+  \code{\link{nDays}}; \code{\link{nMinutes}};
+  \code{\link{weekly}}; \code{\link{yearly}}
+}
 

@@ -11,4 +11,10 @@ monthly(timestamp)
 \description{
 Refresh data monthly.
 }
+\seealso{
+Other frequencies: \code{\link{daily}};
+  \code{\link{hourly}}; \code{\link{nDays}};
+  \code{\link{nHours}}; \code{\link{nMinutes}};
+  \code{\link{weekly}}; \code{\link{yearly}}
+}
 

@@ -3,16 +3,17 @@
 \alias{cache.info}
 \title{Returns information about the cache.}
 \usage{
-cache.info(cache.dir = "cache", units = "mins", stale = c(hourly = hourly,
-  daily = daily, weekly = weekly, monthly = monthly))
+cache.info(cache.dir = "cache", cache.name = "Cache-", units = "mins",
+  stale = c(hourly = hourly, daily = daily, weekly = weekly, monthly =
+  monthly, yearly = yearly))
 }
 \arguments{
 \item{cache.dir}{the directory containing the cached files.}
 
 \item{units}{the units to use for calculate the age of the cache file.}
 
-\item{stale}{a vector of frequencies to test whether the each cache file
-is stale.}
+\item{stale}{a vector of frequencies to test whether each cache file
+is stale according to that metric. If \code{NULL}, no info is provided.}
 }
 \value{
 a data frame with three columns: the cached file name, the date/time

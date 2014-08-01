@@ -1,3 +1,16 @@
+#' Refresh the cache now.
+#' 
+#' This function will always return TRUE therefore causing the cache to always
+#' be refreshed.
+#' 
+#' @param timestamp the timestamp to test whether the cache is stale.
+#' @return Always returns TRUE.
+#' @family frequencies
+#' @export 
+now <- function(timestamp) {
+	return(TRUE)
+}
+
 #' Refresh data hourly.
 #' 
 #' This function will return TRUE when the data cache is stale and the data should

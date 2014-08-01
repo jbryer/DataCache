@@ -20,22 +20,42 @@ data.cache(FUN, frequency = daily, cache.dir = "cache",
 \item{...}{other parameters passed to \code{FUN}.}
 }
 \description{
-Data caching is not new. It is often necessary to save intermediate data
-files when the process of loading and/or manipulating data takes a
-considerable amount of time. This problem is further complicated when working
-with dynamic data that changes regularly. In these situations it often
-sufficient to use data that is current with in some time frame (e.g. hourly,
-daily, weekly, monthly). One solution is to use a time-based job scheduler
-such as cron. However, that requires access and knowledge of Unix systems.
-The alternative, is to check for the “freshness” of a cached dataset each
-time it is requested. If is “stale,” then the data cached is refreshed with
-more up-to-date data. The DataCache package implements this approach in R.
-Moreover, on Unix systems (including Mac OS X), the refreshing will be done
-in the background. That is, when requesting data from the cache, if it is
-stale, the function will return the latest available data while the cache is
-updated in the background. This is particularly useful when using R in a web
-environment (e.g. Shiny Apps) where it is not ideal to have the user wait for
-data be loaded to begin interacting with the app.
+This function maintains a data cache. When called, it will see if a "fresh"
+data file is available. If not (i.e. the cache is "stale"), \code{FUN} will
+be called to retreive more up-to-date data. On systems supporting forking
+(e.g. Linux and Mac OS X), the refreshing of data will occur in the background
+and the most "fresh" data will be returned until that background process
+completes.
+}
+\details{
+The \code{FUN} parameter is required. This function should return a named
+\code{\link{list}} of objects. These objects will be assigned to the
+given environment (the calling environment by default).
+
+There are a number of frequencies available to determine when a cached file
+becomes stale including: \code{\link{hourly}}, \code{\link{daily}},
+\code{\link{weekly}}, \code{\link{monthly}}, \code{\link{yearly}},
+\code{\link{nMinutes}}, \code{\link{nHours}}, and \code{\link{nDays}}.
+
+It is possible to define custom frequencies. Each frequency function takes
+one parameter, \code{timestamp}, which has a class type of \code{POSIXct},
+and returns a \code{logical} value where \code{TRUE} indicates the cache
+created at \code{timestamp} is stale.
+
+See the Vignette (\code{vignette('DataCache')}) or demo
+(\code{demo('WeatherCache')}) for more information.
+}
+\examples{
+\dontrun{
+library('weatherData')
+loadWeatherData <- function(station_id='ALB') {
+		results <- list(getDetailedWeather(station_id, Sys.Date()))
+		names(results) <- paste0('weather.', station_id)
+		return(results)
+}
+data.cache(loadWeatherData)
+head(weather.ALB)
+}
 }
 \seealso{
 \link{daily}, \link{hourly}, \link{weekly}, \link{monthly},

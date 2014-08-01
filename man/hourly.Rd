@@ -22,6 +22,7 @@ minutes, use the \code{\link{nMinutes}} function.
 Other frequencies: \code{\link{daily}};
   \code{\link{monthly}}; \code{\link{nDays}};
   \code{\link{nHours}}; \code{\link{nMinutes}};
-  \code{\link{weekly}}; \code{\link{yearly}}
+  \code{\link{now}}; \code{\link{weekly}};
+  \code{\link{yearly}}
 }
 

@@ -70,7 +70,13 @@ data.cache <- function(FUN,
 			if(!file.exists(lock.file)) {
 				now <- Sys.time()
 				save(now, file=lock.file)
-				p <- parallel:::mcfork(TRUE)
+				# This is a bit of hack. Not sure when the estranged parameter was added
+				params <- formals(parallel:::mcfork)
+				if('estranged' %in% names(params)) {
+					p <- parallel:::mcfork(estranged=TRUE)	
+				} else {
+					p <- parallel:::mcfork()
+				}
 				if(inherits(p, "masterProcess")) {
 					sink(file=paste0(cache.dir, '/', cache.name, cache.date, '.log'), append=TRUE)
 					print(paste0('Loading data at ', Sys.time()))

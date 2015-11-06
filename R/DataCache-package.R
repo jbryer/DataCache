@@ -33,6 +33,3 @@ NULL
 		warning('Background data loading (i.e. forking) is not supported on Windows.')
 	}
 }
-
-.onAttach <- function(libname, pkgname) {
-}

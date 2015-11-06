@@ -10,7 +10,7 @@ nDays(nDays)
 \item{nDays}{number of days (minimally) between updates.}
 }
 \description{
-Refresh every n days.
+Data becomes stale after n days.
 }
 \seealso{
 Other frequencies: \code{\link{daily}},

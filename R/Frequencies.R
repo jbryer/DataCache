@@ -33,6 +33,8 @@ hourly <- function(timestamp) {
 
 #' Refresh data yearly.
 #' 
+#' Data becomes stale yearly.
+#' 
 #' @inheritParams hourly
 #' @family frequencies
 #' @export
@@ -42,6 +44,8 @@ yearly <- function(timestamp) {
 }
 
 #' Refresh data monthly.
+#' 
+#' Data becomes stale monthly.
 #' 
 #' @inheritParams hourly
 #' @family frequencies
@@ -83,6 +87,8 @@ daily <- function(timestamp) {
 
 #' Refresh every n days.
 #' 
+#' Data becomes stale after n days.
+#' 
 #' @param nDays number of days (minimally) between updates.
 #' @family frequencies
 #' @export
@@ -91,6 +97,8 @@ nDays <- function(nDays) {
 }
 
 #' Refresh every n hours.
+#' 
+#' Data becomes stale after n hours.
 #' 
 #' @param nHours number of hours (minimally) between updates.
 #' @family frequencies
@@ -101,6 +109,8 @@ nHours <- function(nHours) {
 
 #' Refresh every n minutes.
 #'
+#' Data becomes stale after n minutes.
+#' 
 #' @param minutes number of minutes (minimally) between updates.
 #' @family frequencies
 #' @export

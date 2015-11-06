@@ -23,6 +23,6 @@ a data frame with three columns: the cached file name, the date/time
         created, and the age in the specified units (default is minutes).
 }
 \description{
-Returns information about the cache.
+Utility function that returns meta data about the given cache.
 }
 

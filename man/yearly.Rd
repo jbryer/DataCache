@@ -10,7 +10,7 @@ yearly(timestamp)
 \item{timestamp}{the timestamp to test whether the cache is stale.}
 }
 \description{
-Refresh data yearly.
+Data becomes stale yearly.
 }
 \seealso{
 Other frequencies: \code{\link{daily}},

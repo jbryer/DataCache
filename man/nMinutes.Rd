@@ -10,7 +10,7 @@ nMinutes(minutes)
 \item{minutes}{number of minutes (minimally) between updates.}
 }
 \description{
-Refresh every n minutes.
+Data becomes stale after n minutes.
 }
 \seealso{
 Other frequencies: \code{\link{daily}},

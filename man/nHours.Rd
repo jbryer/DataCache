@@ -10,7 +10,7 @@ nHours(nHours)
 \item{nHours}{number of hours (minimally) between updates.}
 }
 \description{
-Refresh every n hours.
+Data becomes stale after n hours.
 }
 \seealso{
 Other frequencies: \code{\link{daily}},

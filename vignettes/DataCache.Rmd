@@ -89,7 +89,7 @@ ls()
 
 We will wait 60 seconds so that the cache becomes stale. We will also call `data.cache` twice in a row to show that they will each return the same cached data, but the second call will not spawn a new background process to refresh the data.
 
-```{r updatingCache}
+```{r updatingCache, warning=FALSE}
 Sys.sleep(60)
 (cache.date2 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
 (cache.date3 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
@@ -97,7 +97,7 @@ Sys.sleep(60)
 
 It is easy to have multiple data caches. Using the same `loadWeatherData` function we will create a spearate data cache for weather data from JFK.
 
-```{r jfkCache, eval=FALSE}
+```{r jfkCache, eval=TRUE, warning=TRUE}
 weather.JFK <- data.cache(loadWeatherData, cache.name='JFK', station_id='JFK')
 head(weather.JFK)
 cache.info(cache.name='JFK')

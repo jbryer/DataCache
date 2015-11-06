@@ -1,5 +1,7 @@
 #' Returns information about the cache.
 #' 
+#' Utility function that returns meta data about the given cache.
+#' 
 #' @param cache.dir the directory containing the cached files.
 #' @param cache.name name of the cache.
 #' @param units the units to use for calculate the age of the cache file.

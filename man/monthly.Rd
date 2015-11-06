@@ -10,7 +10,7 @@ monthly(timestamp)
 \item{timestamp}{the timestamp to test whether the cache is stale.}
 }
 \description{
-Refresh data monthly.
+Data becomes stale monthly.
 }
 \seealso{
 Other frequencies: \code{\link{daily}},

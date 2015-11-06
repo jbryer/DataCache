@@ -1,8 +1,12 @@
 .gitignore
 DataCache.dev.R
 DataCache.Rproj
+.Rhistory
 README.md
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .travis.yml
 cache
+doc
+tmp
+.DS_Store

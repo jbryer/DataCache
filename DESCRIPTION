@@ -7,7 +7,7 @@ Author: Jason Bryer <jason@bryer.org>
 Maintainer: Jason Bryer <jason@bryer.org>
 URL: http://jason.bryer.org/DataCache, http://github.com/jbryer/DataCache
 BugReports: https://github.com/jbryer/DataCache/issues
-Description: Utility function to manage data achaces.
+Description: Utility function to manage data caches.
 License: GPL
 LazyLoad: yes
 VignetteBuilder: knitr

@@ -72,12 +72,13 @@ data.cache <- function(FUN,
 				now <- Sys.time()
 				save(now, file=lock.file)
 				# This is a bit of hack. Not sure when the estranged parameter was added
-				params <- formals(parallel:::mcfork)
-				if('estranged' %in% names(params)) {
+# 				params <- formals(parallel:::mcfork)
+# 				if('estranged' %in% names(params)) {
 					p <- parallel:::mcfork(estranged=TRUE)	
-				} else {
-					p <- parallel:::mcfork()
-				}
+# 				} else {
+# 					p <- parallel:::mcfork()
+# 				}
+# 				p <- mcfork(estranged=TRUE) # Using interal copy of function
 				if(inherits(p, "masterProcess")) {
 					sink(file=paste0(cache.dir, '/', cache.name, cache.date, '.log'), append=TRUE)
 					print(paste0('Loading data at ', Sys.time()))
@@ -96,7 +97,8 @@ data.cache <- function(FUN,
 						},
 						finally = {
 							unlink(lock.file)
-							parallel:::mcexit()							
+							parallel:::mcexit()
+#							mcexit() # Using interal copy of of function
 						}
 					)
 					invisible(new.cache.file)

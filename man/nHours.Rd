@@ -4,10 +4,10 @@
 \alias{nHours}
 \title{Refresh every n hours.}
 \usage{
-nHours(nHours)
+nHours(hours)
 }
 \arguments{
-\item{nHours}{number of hours (minimally) between updates.}
+\item{hours}{number of hours (minimally) between updates.}
 }
 \description{
 Data becomes stale after n hours.

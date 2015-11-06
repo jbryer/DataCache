@@ -4,10 +4,10 @@
 \alias{nDays}
 \title{Refresh every n days.}
 \usage{
-nDays(nDays)
+nDays(days)
 }
 \arguments{
-\item{nDays}{number of days (minimally) between updates.}
+\item{days}{number of days (minimally) between updates.}
 }
 \description{
 Data becomes stale after n days.

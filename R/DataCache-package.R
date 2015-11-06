@@ -25,11 +25,11 @@
 #' @title Package for managing data caches
 #' @author \email{jason@@bryer.org}
 #' @keywords data cache
-#' @import parallel lubridate
+#' @import parallel lubridate stats
 NULL
 
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
 	if(Sys.info()['sysname'] == 'Windows') {
-		warning('Background data loading (i.e. forking) is not supported on Windows.')
+		packageStartupMessage('Background data loading (i.e. forking) is not supported on Windows.')
 	}
 }

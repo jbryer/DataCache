@@ -14,7 +14,7 @@ VignetteBuilder: knitr
 Depends:
     R (>= 3.0)
 Imports:
-    lubridate,parallel
+    parallel,stats,lubridate
 Suggests:
     devtools,weatherData,knitr
 RoxygenNote: 5.0.0

@@ -89,22 +89,22 @@ daily <- function(timestamp) {
 #' 
 #' Data becomes stale after n days.
 #' 
-#' @param nDays number of days (minimally) between updates.
+#' @param days number of days (minimally) between updates.
 #' @family frequencies
 #' @export
-nDays <- function(nDays) {
-	return(nMintues(24 * 60 * nDays))
+nDays <- function(days) {
+	return(nMintues(24 * 60 * days))
 }
 
 #' Refresh every n hours.
 #' 
 #' Data becomes stale after n hours.
 #' 
-#' @param nHours number of hours (minimally) between updates.
+#' @param hours number of hours (minimally) between updates.
 #' @family frequencies
 #' @export
-nHours <- function(nHours) {
-	return(nMinutes(60 * nHours))
+nHours <- function(hours) {
+	return(nMinutes(60 * hours))
 }
 
 #' Refresh every n minutes.

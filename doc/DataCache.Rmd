@@ -10,29 +10,29 @@
 #### Bug Reports: [github.com/jbryer/DataCache/issues](https://github.com/jbryer/DataCache/issues)
 
 
-
+```{r setup, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+require(knitr)
+opts_chunk$set(comment='')
+```
 
 Data caching is not new. It is often necessary to save intermediate data files when the process of loading and/or manipulating data takes a considerable amount of time. This problem is further complicated when working with dynamic data that changes regularly. In these situations it often sufficient to use data that is current with in some time frame (e.g. hourly, daily, weekly, monthly). One solution is to use a time-based job scheduler such as `cron`. However, that requires access and knowledge of Unix systems. The alternative, is to check for the "freshness" of a cached dataset each time it is requested. If is "stale," then the data cached is refreshed with more up-to-date data. The `DataCache` package implements this approach in R. Moreover, on Unix systems (including Mac OS X), the refreshing will be done in the background. That is, when requesting data from the cache, if it is stale, the function will return the latest available data while the cache is updated in the background. This is particularly useful when using R in a web environment (e.g. [Shiny Apps](http://shiny.rstudio.com)) where it is not ideal to have the user wait for data be loaded to begin interacting with the app.
 
 The latest version of the `DataCache` package can be downloaded from Github using the `devtools` package.
 
-
-```r
+```{r install, eval=FALSE}
 devtools::install_github('jbryer/DataCache')
 ```
 
 For this example, we wish to periodically load weather data using the `weatherData` package. The `getDetailedWeather` function provides hourly temperature updates. To start, we will load the `DataCache` and `weatherData` packages.
 
-
-```r
+```{r loadPackages, message=FALSE, warning=FALSE}
 library('DataCache')
 library('weatherData')
 ```
 
 The only required parameter for the `data.cache` function is the `FUN` parameter which defines the data to be loaded. This function should return a named `list` where each element of the list will be assigned to specified environment when loaded. That is, if the function returns `list(foo='bar')` then the object `foo` will be assigned in the working envirnoment (note that this can be modified using the `envir` parameter).
 
-
-```r
+```{r loadWeatherData}
 #' Load data for a single day for the given airport.
 #' @param station_id three letter airport code.
 #' @return a list with a data frame names `weather.XXX` where `XXX` is the three
@@ -50,51 +50,20 @@ Note for Windows users: Forking is not available on Windows systems using the `p
 
 The `data.cache` returns invisibly (i.e. will not be printed if not assinged to a variable, see `?invisible` for more details) the timestamp of the data returned.
 
-
-```r
+```{r firstCache}
 (cache.date1 <- data.cache(loadWeatherData))
-```
-
-```
-No cached data found. Loading intial data...
-```
-
-```
-[1] "2015-11-06 14:41:26 EST"
-```
-
-```r
 head(weather.ALB)
-```
-
-```
-                 Time TemperatureF
-1 2015-11-06 00:51:00         63.0
-2 2015-11-06 01:09:00         63.0
-3 2015-11-06 01:51:00         62.1
-4 2015-11-06 02:51:00         61.0
-5 2015-11-06 03:51:00         62.1
-6 2015-11-06 04:51:00         62.1
 ```
 
 The `cache.info` function provides a summary of all the cached data files. It will also provide columns (which can be set using the `stale` parameter) indicating whether that data file is stale according to various time periods.
 
-
-```r
+```{r cacheInfo}
 cache.info()
-```
-
-```
-                          file             created   age_mins hourly_stale
-1 Cache2015-11-06 14:41:26.rda 2015-11-06 14:41:26 0.02158712        FALSE
-  daily_stale weekly_stale monthly_stale yearly_stale
-1       FALSE        FALSE         FALSE        FALSE
 ```
 
 Old data caches can easily be loaded this way. For example, the following will load the first data cache created:
 
-
-```r
+```{r loadOldCache, eval=FALSE}
 cinfo <- cache.info()
 load(cinfo[nrow(cinfo),]$file)
 ```
@@ -114,73 +83,27 @@ You can define your own frequency. Simply define a function that takes one param
 
 We can see that the `weather.ALB` data frame is now available in the working environent.
 
-
-```r
+```{r ls}
 ls()
-```
-
-```
-[1] "cache.date1"     "loadWeatherData" "weather.ALB"    
 ```
 
 We will wait 60 seconds so that the cache becomes stale. We will also call `data.cache` twice in a row to show that they will each return the same cached data, but the second call will not spawn a new background process to refresh the data.
 
-
-```r
+```{r updatingCache, warning=FALSE}
 Sys.sleep(60)
 (cache.date2 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
-```
-
-```
-Loading more recent data, returning lastest available.
-```
-
-```
-[1] "2015-11-06 14:41:26 EST"
-```
-
-```r
 (cache.date3 <- data.cache(loadWeatherData, frequency=nMinutes(1)))
-```
-
-```
-Data is being loaded by another process. The process has been running for 0.384583950042725 seconds. If this is an error delete cache/Cache.lck
-Loading more recent data, returning lastest available.
-```
-
-```
-[1] "2015-11-06 14:41:26 EST"
 ```
 
 It is easy to have multiple data caches. Using the same `loadWeatherData` function we will create a spearate data cache for weather data from JFK.
 
-
-```r
+```{r jfkCache, eval=TRUE, warning=TRUE}
 weather.JFK <- data.cache(loadWeatherData, cache.name='JFK', station_id='JFK')
-```
-
-```
-No cached data found. Loading intial data...
-```
-
-```r
 head(weather.JFK)
-```
-
-```
-[1] "2015-11-06 14:42:27 EST"
-```
-
-```r
 cache.info(cache.name='JFK')
 ```
 
+
+```{r cleanup, echo=FALSE, message=FALSE, warning=FALSE}
+unlink('cache', recursive=TRUE, force=TRUE)
 ```
-                        file             created   age_mins hourly_stale
-1 JFK2015-11-06 14:42:27.rda 2015-11-06 14:42:27 0.02559777        FALSE
-  daily_stale weekly_stale monthly_stale yearly_stale
-1       FALSE        FALSE         FALSE        FALSE
-```
-
-
-

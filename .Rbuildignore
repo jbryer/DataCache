@@ -10,3 +10,4 @@ cache
 doc
 tmp
 .DS_Store
+.git

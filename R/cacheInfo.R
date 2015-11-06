@@ -1,6 +1,7 @@
 #' Returns information about the cache.
 #' 
 #' @param cache.dir the directory containing the cached files.
+#' @param cache.name name of the cache.
 #' @param units the units to use for calculate the age of the cache file.
 #' @param stale a vector of frequencies to test whether each cache file
 #'        is stale according to that metric. If \code{NULL}, no info is provided.

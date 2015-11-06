@@ -27,6 +27,7 @@
 #' @param FUN the function used to laod the data.
 #' @param frequency how frequently should the cache expire.
 #' @param cache.dir the directory containing the cached data files.
+#' @param cache.name name of the cache.
 #' @param envir the enviroment into which data will be loaded.
 #' @param wait should the function wait until stale data is refreshed.
 #' @param ... other parameters passed to \code{FUN}.

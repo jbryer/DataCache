@@ -4,3 +4,5 @@ DataCache.Rproj
 README.md
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.travis.yml
+cache

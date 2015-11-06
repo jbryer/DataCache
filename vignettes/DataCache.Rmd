@@ -97,10 +97,10 @@ Sys.sleep(60)
 
 It is easy to have multiple data caches. Using the same `loadWeatherData` function we will create a spearate data cache for weather data from JFK.
 
-```{r jfkCache}
-data.cache(loadWeatherData, cache.name='NRT', station_id='NRT')
-head(weather.NRT)
-cache.info(cache.name='NRT')
+```{r jfkCache, eval=TRUE}
+weather.JFK <- data.cache(loadWeatherData, cache.name='JFK', station_id='JFK')
+head(weather.JFK)
+cache.info(cache.name='JFK')
 ```
 
 

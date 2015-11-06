@@ -101,12 +101,12 @@ nHours <- function(nHours) {
 
 #' Refresh every n minutes.
 #'
-#' @param nMinutes number of minutes (minimally) between updates.
+#' @param minutes number of minutes (minimally) between updates.
 #' @family frequencies
 #' @export
-nMinutes <- function(nMinutes) {
+nMinutes <- function(minutes) {
 	fun <- function(timestamp) {
-		return(difftime(Sys.time(), timestamp, units='mins') > nMinutes)
+		return(difftime(Sys.time(), timestamp, units='mins') > minutes)
 	}
 	return(fun)
 }

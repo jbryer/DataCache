@@ -12,11 +12,3 @@ monthly(timestamp)
 \description{
 Data becomes stale monthly.
 }
-\seealso{
-Other frequencies: \code{\link{daily}},
-  \code{\link{hourly}}, \code{\link{nDays}},
-  \code{\link{nHours}}, \code{\link{nMinutes}},
-  \code{\link{now}}, \code{\link{weekly}},
-  \code{\link{yearly}}
-}
-

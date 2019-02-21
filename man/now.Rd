@@ -16,11 +16,3 @@ Always returns TRUE.
 This function will always return TRUE therefore causing the cache to always
 be refreshed.
 }
-\seealso{
-Other frequencies: \code{\link{daily}},
-  \code{\link{hourly}}, \code{\link{monthly}},
-  \code{\link{nDays}}, \code{\link{nHours}},
-  \code{\link{nMinutes}}, \code{\link{weekly}},
-  \code{\link{yearly}}
-}
-

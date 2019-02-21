@@ -1,8 +1,8 @@
 Package: DataCache
 Type: Package
 Title: Package for managing data caches
-Version: 0.9
-Date: 2015-11-06
+Version: 0.9.1
+Date: 2019-02-21
 Author: Jason Bryer <jason@bryer.org>
 Maintainer: Jason Bryer <jason@bryer.org>
 URL: http://jason.bryer.org/DataCache, http://github.com/jbryer/DataCache
@@ -17,4 +17,5 @@ Imports:
     parallel,stats,lubridate
 Suggests:
     devtools,weatherData,knitr
-RoxygenNote: 5.0.0
+RoxygenNote: 6.1.1
+Encoding: UTF-8

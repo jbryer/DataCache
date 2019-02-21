@@ -1,12 +1,9 @@
-require(devtools)
-
-setwd('~/Dropbox/Projects')
+library(devtools)
 
 # Package building
-document('DataCache')
-check_doc('DataCache')
-build('DataCache')
-install('DataCache')
+document()
+build()
+install()
 
 # This will build the vignette (from doc directory) and copy to the
 # vignettes folder. This will prevent it from building from R CMD CHECK

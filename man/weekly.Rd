@@ -13,11 +13,3 @@ weekly(timestamp)
 This function will return TRUE when the data cache is stale and the data should
 be refreshed.
 }
-\seealso{
-Other frequencies: \code{\link{daily}},
-  \code{\link{hourly}}, \code{\link{monthly}},
-  \code{\link{nDays}}, \code{\link{nHours}},
-  \code{\link{nMinutes}}, \code{\link{now}},
-  \code{\link{yearly}}
-}
-

@@ -19,11 +19,3 @@ For example, if the last cache was created at 9:59 and then called again at
 10:01, this function will return TRUE. If you wish to refresh every, say, 60
 minutes, use the \code{\link{nMinutes}} function.
 }
-\seealso{
-Other frequencies: \code{\link{daily}},
-  \code{\link{monthly}}, \code{\link{nDays}},
-  \code{\link{nHours}}, \code{\link{nMinutes}},
-  \code{\link{now}}, \code{\link{weekly}},
-  \code{\link{yearly}}
-}
-

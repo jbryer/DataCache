@@ -5,7 +5,6 @@
 #' 
 #' @param timestamp the timestamp to test whether the cache is stale.
 #' @return Always returns TRUE.
-#' @family frequencies
 #' @export 
 now <- function(timestamp) {
 	return(TRUE)
@@ -21,7 +20,6 @@ now <- function(timestamp) {
 #' 
 #' @param timestamp the timestamp to test whether the cache is stale.
 #' @return Returns TRUE if the the cache is stale.
-#' @family frequencies
 #' @export
 hourly <- function(timestamp) {
 	now <- Sys.time()
@@ -36,7 +34,6 @@ hourly <- function(timestamp) {
 #' Data becomes stale yearly.
 #' 
 #' @inheritParams hourly
-#' @family frequencies
 #' @export
 yearly <- function(timestamp) {
 	now <- Sys.time()
@@ -48,7 +45,6 @@ yearly <- function(timestamp) {
 #' Data becomes stale monthly.
 #' 
 #' @inheritParams hourly
-#' @family frequencies
 #' @export
 monthly <- function(timestamp) {
 	now <- Sys.time()
@@ -62,7 +58,6 @@ monthly <- function(timestamp) {
 #' be refreshed.
 #' 
 #' @inheritParams hourly
-#' @family frequencies
 #' @export
 weekly <- function(timestamp) {
 	now <- Sys.time()
@@ -76,7 +71,6 @@ weekly <- function(timestamp) {
 #' be refreshed.
 #' 
 #' @inheritParams hourly
-#' @family frequencies
 #' @export
 daily <- function(timestamp) {
 	now <- Sys.time()
@@ -90,7 +84,6 @@ daily <- function(timestamp) {
 #' Data becomes stale after n days.
 #' 
 #' @param days number of days (minimally) between updates.
-#' @family frequencies
 #' @export
 nDays <- function(days) {
 	return(nMintues(24 * 60 * days))
@@ -101,7 +94,6 @@ nDays <- function(days) {
 #' Data becomes stale after n hours.
 #' 
 #' @param hours number of hours (minimally) between updates.
-#' @family frequencies
 #' @export
 nHours <- function(hours) {
 	return(nMinutes(60 * hours))
@@ -112,7 +104,6 @@ nHours <- function(hours) {
 #' Data becomes stale after n minutes.
 #' 
 #' @param minutes number of minutes (minimally) between updates.
-#' @family frequencies
 #' @export
 nMinutes <- function(minutes) {
 	fun <- function(timestamp) {

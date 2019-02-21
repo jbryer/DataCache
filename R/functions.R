@@ -33,7 +33,6 @@
 #' @param ... other parameters passed to \code{FUN}.
 #' @seealso \link{daily}, \link{hourly}, \link{weekly}, \link{monthly}, 
 #'   \link{yearly}, \link{nMinutes}, \link{nHours}, \link{nDays}
-#' @export
 #' @examples
 #' \dontrun{
 #' library('weatherData')
@@ -45,13 +44,14 @@
 #' data.cache(loadWeatherData)
 #' head(weather.ALB)
 #' }
+#' @export
 data.cache <- function(FUN,
-					  frequency=daily,
-					  cache.dir='cache',
-					  cache.name='Cache',
-					  envir=parent.frame(),
-					  wait=FALSE,
-					  ...) {
+						  frequency=daily,
+						  cache.dir='cache',
+						  cache.name='Cache',
+						  envir=parent.frame(),
+						  wait=FALSE,
+						  ...) {
 	if(missing(FUN)) {
 		stop('FUN is missing! This parameter defines a function to load data.')
 	}
@@ -72,34 +72,34 @@ data.cache <- function(FUN,
 				now <- Sys.time()
 				save(now, file=lock.file)
 				# This is a bit of hack. Not sure when the estranged parameter was added
-# 				params <- formals(parallel:::mcfork)
-# 				if('estranged' %in% names(params)) {
-					p <- parallel:::mcfork(estranged=TRUE)	
-# 				} else {
-# 					p <- parallel:::mcfork()
-# 				}
-# 				p <- mcfork(estranged=TRUE) # Using interal copy of function
+				# 				params <- formals(parallel:::mcfork)
+				# 				if('estranged' %in% names(params)) {
+				p <- parallel:::mcfork(estranged=TRUE)	
+				# 				} else {
+				# 					p <- parallel:::mcfork()
+				# 				}
+				# 				p <- mcfork(estranged=TRUE) # Using interal copy of function
 				if(inherits(p, "masterProcess")) {
 					sink(file=paste0(cache.dir, '/', cache.name, cache.date, '.log'), append=TRUE)
 					print(paste0('Loading data at ', Sys.time()))
 					tryCatch({
-							thedata <- FUN(...)
-							if(class(thedata) == 'list') {
-								save(list=ls(thedata), envir=as.environment(thedata), 
-									 file=new.cache.file)
-							} else {
-								save(thedata, file=new.cache.file)
-							}							
-							sink()
-						},
-						error = function(e) {
-							print(e)
-						},
-						finally = {
-							unlink(lock.file)
-							parallel:::mcexit()
-#							mcexit() # Using interal copy of of function
-						}
+						thedata <- FUN(...)
+						if(class(thedata) == 'list') {
+							save(list=ls(thedata), envir=as.environment(thedata), 
+								 file=new.cache.file)
+						} else {
+							save(thedata, file=new.cache.file)
+						}							
+						sink()
+					},
+					error = function(e) {
+						print(e)
+					},
+					finally = {
+						unlink(lock.file)
+						parallel:::mcexit()
+						# mcexit() # Using interal copy of of function
+					}
 					)
 					invisible(new.cache.file)
 				}
@@ -136,4 +136,51 @@ data.cache <- function(FUN,
 	}
 	
 	invisible(return.date)
+}
+
+#' Returns information about the cache.
+#' 
+#' Utility function that returns meta data about the given cache.
+#' 
+#' @param cache.dir the directory containing the cached files.
+#' @param cache.name name of the cache.
+#' @param units the units to use for calculate the age of the cache file.
+#' @param stale a vector of frequencies to test whether each cache file
+#'        is stale according to that metric. If \code{NULL}, no info is provided.
+#' @return a data frame with three columns: the cached file name, the date/time
+#'         created, and the age in the specified units (default is minutes).
+#' @export
+cache.info <- function(cache.dir = 'cache', 
+					   cache.name = 'Cache', 
+					   units = 'mins', 
+					   stale = c('hourly' = hourly, 
+					   		  'daily' = daily, 
+					   		  'weekly' = weekly,
+					   		  'monthly' = monthly,
+					   		  'yearly' = yearly)) {
+	if(!is.null(stale) & any(names(stale) == '')) {
+		stop("stale must be a named vector (e.g. stale=c(hourly=hourly)")
+	}
+	results <- data.frame()
+	if(file.exists(cache.dir)) {
+		cache.files <- list.files(path=cache.dir, pattern=paste0(cache.name, '*'))
+		cache.files <- cache.files[grep('*.rda$', cache.files)] # Get only .rda files
+		if(length(cache.files) > 0) {
+			timestamps <- substr(cache.files, 
+								 nchar(cache.name) + 1,
+								 sapply(cache.files, nchar) - 4)
+			results <- data.frame(file=cache.files,
+								  created=as.POSIXct(timestamps),
+								  age=as.numeric(difftime(Sys.time(), timestamps, units=units)))
+			names(results)[3] <- paste0('age_', units)
+			if(!is.null(stale)) {
+				for(i in seq_along(stale)) {
+					results[,paste0(names(stale)[i], '_stale')] <- stale[[i]](timestamps)
+				}
+			}
+			results <- results[order(results$created, decreasing=TRUE),]
+		}
+	}
+	attr(results, 'cache.dir') <- cache.dir
+	return(results)
 }

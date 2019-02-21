@@ -12,11 +12,3 @@ yearly(timestamp)
 \description{
 Data becomes stale yearly.
 }
-\seealso{
-Other frequencies: \code{\link{daily}},
-  \code{\link{hourly}}, \code{\link{monthly}},
-  \code{\link{nDays}}, \code{\link{nHours}},
-  \code{\link{nMinutes}}, \code{\link{now}},
-  \code{\link{weekly}}
-}
-
